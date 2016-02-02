@@ -8,6 +8,7 @@
         <module>sonlp-core</module>
         <module>sonlp-assembly</module>
         <module>sonlp-service</module>
+        <module>hanlp</module>
     </modules>
     <packaging>pom</packaging>
 
