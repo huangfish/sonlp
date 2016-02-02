@@ -9,9 +9,9 @@ buildNumber.properties
 .mvn/timing.properties
 **/*.iml
 .idea/
-data/
-model/
-result/
-log/
-library/
-dic/
+/data/
+/model/
+/result/
+/log/
+/library/
+/dic/

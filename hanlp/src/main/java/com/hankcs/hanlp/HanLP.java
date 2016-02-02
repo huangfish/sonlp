@@ -3,8 +3,7 @@ package com.hankcs.hanlp;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.Viterbi.ViterbiSegment;
 
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -141,9 +140,42 @@ public class HanLP {
 
         static {
             // 自动读取配置
+            config(Thread.currentThread().getContextClassLoader().getResourceAsStream("hanlp.properties"));
+        }
+
+        public static void config(String confPath) {
+            try {
+                config(new FileInputStream(confPath));
+            } catch (FileNotFoundException e) {
+                logHelpMessage();
+            }
+        }
+
+        private static void logHelpMessage() {
+            StringBuilder sbInfo = new StringBuilder("========Tips========\n请将hanlp.properties放在下列目录：\n"); // 打印一些友好的tips
+            String classPath = (String) System.getProperties().get("java.class.path");
+            if (classPath != null) {
+                for (String path : classPath.split(";")) {
+                    if (new File(path).isDirectory()) {
+                        sbInfo.append(path).append('\n');
+                    }
+                }
+            }
+            sbInfo.append("Web项目则请放到下列目录：\n" +
+                    "Webapp/WEB-INF/lib\n" +
+                    "Webapp/WEB-INF/classes\n" +
+                    "Appserver/lib\n" +
+                    "JRE/lib\n");
+            sbInfo.append("并且编辑root=PARENT/path/to/your/data\n");
+            sbInfo.append("现在HanLP将尝试从").append(System.getProperties().get("user.dir")).append("读取data……");
+            logger.severe("没有找到HanLP.properties，可能会导致找不到data\n" + sbInfo);
+        }
+
+
+        private static void config(InputStream confStream) {
             Properties p = new Properties();
             try {
-                p.load(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("hanlp.properties"), "UTF-8"));
+                p.load(new InputStreamReader(confStream, "utf-8"));
                 String root = p.getProperty("root", "").replaceAll("\\\\", "/");
                 if (!root.endsWith("/")) root += "/";
                 CoreDictionaryPath = root + p.getProperty("CoreDictionaryPath", CoreDictionaryPath);
@@ -187,25 +219,10 @@ public class HanLP {
                 ShowTermNature = "true".equals(p.getProperty("ShowTermNature", "true"));
                 Normalization = "true".equals(p.getProperty("Normalization", "false"));
             } catch (Exception e) {
-                StringBuilder sbInfo = new StringBuilder("========Tips========\n请将HanLP.properties放在下列目录：\n"); // 打印一些友好的tips
-                String classPath = (String) System.getProperties().get("java.class.path");
-                if (classPath != null) {
-                    for (String path : classPath.split(";")) {
-                        if (new File(path).isDirectory()) {
-                            sbInfo.append(path).append('\n');
-                        }
-                    }
-                }
-                sbInfo.append("Web项目则请放到下列目录：\n" +
-                        "Webapp/WEB-INF/lib\n" +
-                        "Webapp/WEB-INF/classes\n" +
-                        "Appserver/lib\n" +
-                        "JRE/lib\n");
-                sbInfo.append("并且编辑root=PARENT/path/to/your/data\n");
-                sbInfo.append("现在HanLP将尝试从").append(System.getProperties().get("user.dir")).append("读取data……");
-                logger.severe("没有找到HanLP.properties，可能会导致找不到data\n" + sbInfo);
+                logHelpMessage();
             }
         }
+
 
         /**
          * 开启调试模式(会降低性能)
@@ -228,6 +245,7 @@ public class HanLP {
             }
         }
     }
+
 
     /**
      * 创建一个分词器<br>
