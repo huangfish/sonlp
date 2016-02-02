@@ -2,8 +2,12 @@ package com.hankcs.hanlp;
 
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.Viterbi.ViterbiSegment;
+import com.hankcs.hanlp.seg.common.Term;
+import com.hankcs.hanlp.summary.TextRankKeyword;
+import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 
 import java.io.*;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -24,111 +28,111 @@ public class HanLP {
         /**
          * 核心词典路径
          */
-        public static String CoreDictionaryPath = "data/dictionary/CoreNatureDictionary.txt";
+        public static String CoreDictionaryPath = "dictionary/CoreNatureDictionary.txt";
         /**
          * 核心词典词性转移矩阵路径
          */
-        public static String CoreDictionaryTransformMatrixDictionaryPath = "data/dictionary/CoreNatureDictionary.tr.txt";
+        public static String CoreDictionaryTransformMatrixDictionaryPath = "dictionary/CoreNatureDictionary.tr.txt";
         /**
          * 用户自定义词典路径
          */
-        public static String CustomDictionaryPath[] = new String[]{"data/dictionary/custom/CustomDictionary.txt"};
+        public static String CustomDictionaryPath[] = new String[]{"dictionary/custom/CustomDictionary.txt"};
         /**
          * 2元语法词典路径
          */
-        public static String BiGramDictionaryPath = "data/dictionary/CoreNatureDictionary.ngram.txt";
+        public static String BiGramDictionaryPath = "dictionary/CoreNatureDictionary.ngram.txt";
 
         /**
          * 停用词词典路径
          */
-        public static String CoreStopWordDictionaryPath = "data/dictionary/stopwords.txt";
+        public static String CoreStopWordDictionaryPath = "dictionary/stopwords.txt";
         /**
          * 同义词词典路径
          */
-        public static String CoreSynonymDictionaryDictionaryPath = "data/dictionary/synonym/CoreSynonym.txt";
+        public static String CoreSynonymDictionaryDictionaryPath = "dictionary/synonym/CoreSynonym.txt";
         /**
          * 人名词典路径
          */
-        public static String PersonDictionaryPath = "data/dictionary/person/nr.txt";
+        public static String PersonDictionaryPath = "dictionary/person/nr.txt";
         /**
          * 人名词典转移矩阵路径
          */
-        public static String PersonDictionaryTrPath = "data/dictionary/person/nr.tr.txt";
+        public static String PersonDictionaryTrPath = "dictionary/person/nr.tr.txt";
         /**
          * 地名词典路径
          */
-        public static String PlaceDictionaryPath = "data/dictionary/place/ns.txt";
+        public static String PlaceDictionaryPath = "dictionary/place/ns.txt";
         /**
          * 地名词典转移矩阵路径
          */
-        public static String PlaceDictionaryTrPath = "data/dictionary/place/ns.tr.txt";
+        public static String PlaceDictionaryTrPath = "dictionary/place/ns.tr.txt";
         /**
          * 地名词典路径
          */
-        public static String OrganizationDictionaryPath = "data/dictionary/organization/nt.txt";
+        public static String OrganizationDictionaryPath = "dictionary/organization/nt.txt";
         /**
          * 地名词典转移矩阵路径
          */
-        public static String OrganizationDictionaryTrPath = "data/dictionary/organization/nt.tr.txt";
+        public static String OrganizationDictionaryTrPath = "dictionary/organization/nt.tr.txt";
         /**
          * 繁简词典路径
          */
-        public static String TraditionalChineseDictionaryPath = "data/dictionary/tc/TraditionalChinese.txt";
+        public static String TraditionalChineseDictionaryPath = "dictionary/tc/TraditionalChinese.txt";
         /**
          * 声母韵母语调词典
          */
-        public static String SYTDictionaryPath = "data/dictionary/pinyin/SYTDictionary.txt";
+        public static String SYTDictionaryPath = "dictionary/pinyin/SYTDictionary.txt";
 
         /**
          * 拼音词典路径
          */
-        public static String PinyinDictionaryPath = "data/dictionary/pinyin/pinyin.txt";
+        public static String PinyinDictionaryPath = "dictionary/pinyin/pinyin.txt";
 
         /**
          * 音译人名词典
          */
-        public static String TranslatedPersonDictionaryPath = "data/dictionary/person/nrf.txt";
+        public static String TranslatedPersonDictionaryPath = "dictionary/person/nrf.txt";
 
         /**
          * 日本人名词典路径
          */
-        public static String JapanesePersonDictionaryPath = "data/dictionary/person/nrj.txt";
+        public static String JapanesePersonDictionaryPath = "dictionary/person/nrj.txt";
 
         /**
          * 字符类型对应表
          */
-        public static String CharTypePath = "data/dictionary/other/CharType.dat.yes";
+        public static String CharTypePath = "dictionary/other/CharType.dat.yes";
 
         /**
          * 字符正规化表（全角转半角，繁体转简体）
          */
-        public static String CharTablePath = "data/dictionary/other/CharTable.bin.yes";
+        public static String CharTablePath = "dictionary/other/CharTable.bin.yes";
 
         /**
          * 词-词性-依存关系模型
          */
-        public static String WordNatureModelPath = "data/model/dependency/WordNature.txt";
+        public static String WordNatureModelPath = "model/dependency/WordNature.txt";
 
         /**
          * 最大熵-依存关系模型
          */
-        public static String MaxEntModelPath = "data/model/dependency/MaxEntModel.txt";
+        public static String MaxEntModelPath = "model/dependency/MaxEntModel.txt";
         /**
          * 神经网络依存模型路径
          */
-        public static String NNParserModelPath = "data/model/dependency/NNParserModel.txt";
+        public static String NNParserModelPath = "model/dependency/NNParserModel.txt";
         /**
          * CRF分词模型
          */
-        public static String CRFSegmentModelPath = "data/model/segment/CRFSegmentModel.txt";
+        public static String CRFSegmentModelPath = "model/segment/CRFSegmentModel.txt";
         /**
          * HMM分词模型
          */
-        public static String HMMSegmentModelPath = "data/model/segment/HMMSegmentModel.bin";
+        public static String HMMSegmentModelPath = "model/segment/HMMSegmentModel.bin";
         /**
          * CRF依存模型
          */
-        public static String CRFDependencyModelPath = "data/model/dependency/CRFDependencyModelMini.txt";
+        public static String CRFDependencyModelPath = "model/dependency/CRFDependencyModelMini.txt";
         /**
          * 分词结果是否展示词性
          */
@@ -138,16 +142,17 @@ public class HanLP {
          */
         public static boolean Normalization = false;
 
-        static {
-            // 自动读取配置
-            config(Thread.currentThread().getContextClassLoader().getResourceAsStream("hanlp.properties"));
-        }
+//        static {
+//            // 自动读取配置
+//            config(Thread.currentThread().getContextClassLoader().getResourceAsStream("hanlp.properties"));
+//        }
 
-        public static void config(String confPath) {
+        public static void config(String confPath) throws FileNotFoundException {
             try {
                 config(new FileInputStream(confPath));
             } catch (FileNotFoundException e) {
                 logHelpMessage();
+                throw e;
             }
         }
 
@@ -168,7 +173,7 @@ public class HanLP {
                     "JRE/lib\n");
             sbInfo.append("并且编辑root=PARENT/path/to/your/data\n");
             sbInfo.append("现在HanLP将尝试从").append(System.getProperties().get("user.dir")).append("读取data……");
-            logger.severe("没有找到HanLP.properties，可能会导致找不到data\n" + sbInfo);
+            logger.severe("没有找到hanlp.properties，可能会导致找不到data\n" + sbInfo);
         }
 
 
@@ -247,6 +252,31 @@ public class HanLP {
     }
 
 
+    public static void config(String confPath) throws FileNotFoundException {
+        Config.config(confPath);
+    }
+
+    /**
+     * 提取关键词
+     *
+     * @param document 文档内容
+     * @param size     希望提取几个关键词
+     * @return 一个列表
+     */
+    public static List<String> extractKeyword(String document, int size) {
+        return TextRankKeyword.getKeywordList(document, size);
+    }
+
+    /**
+     * 分词
+     *
+     * @param text 文本
+     * @return 切分后的单词
+     */
+    public static List<Term> segment(String text) {
+        return StandardTokenizer.segment(text.toCharArray());
+    }
+
     /**
      * 创建一个分词器<br>
      * 这是一个工厂方法<br>
@@ -257,4 +287,5 @@ public class HanLP {
     public static Segment newSegment() {
         return new ViterbiSegment();   // Viterbi分词器是目前效率和效果的最佳平衡
     }
+
 }
