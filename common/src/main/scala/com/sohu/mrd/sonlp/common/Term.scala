@@ -1,4 +1,4 @@
-package com.sohu.mrd.sonlp.core
+package com.sohu.mrd.sonlp.common
 
 /**
  * Created by huangyu on 16/2/2.

@@ -12,6 +12,7 @@
 package com.hankcs.demo;
 
 import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 
 import java.io.FileNotFoundException;
@@ -22,8 +23,7 @@ import java.util.List;
  *
  * @author hankcs
  */
-public class DemoSegment
-{
+public class DemoSegment {
     public static void main(String[] args) throws FileNotFoundException {
         HanLP.config("src/conf/hanlp.properties");
         String[] testCase = new String[]{
@@ -35,9 +35,11 @@ public class DemoSegment
                 "工信处女干事每月经过下属科室都要亲口交代24口交换机等技术性器件的安装工作",
                 "随着页游兴起到现在的页游繁盛，依赖于存档进行逻辑判断的设计减少了，但这块也不能完全忽略掉。",
         };
-        for (String sentence : testCase)
-        {
-            List<Term> termList = HanLP.segment(sentence);
+        for (String sentence : testCase) {
+            Segment seg = HanLP.newSegment();
+            seg.enableOffset(true);
+            List<Term> termList = seg.seg(sentence);
+//            List<Term> termList = HanLP.segment(sentence);
             System.out.println(termList);
         }
     }

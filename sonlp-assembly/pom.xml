@@ -9,6 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
     <artifactId>sonlp-assembly</artifactId>
 
@@ -26,6 +27,10 @@
         <dependency>
             <groupId>com.sohu.mrd</groupId>
             <artifactId>sonlp-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sohu.mrd</groupId>
+            <artifactId>sonlp-distributed</artifactId>
         </dependency>
     </dependencies>
     <build>

@@ -10,13 +10,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sonlp-core</artifactId>
-
+    <artifactId>sonlp-distributed</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.ansj</groupId>
-            <artifactId>ansj_seg</artifactId>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_${scala.binary.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sohu.mrd</groupId>
+            <artifactId>sonlp-common</artifactId>
         </dependency>
     </dependencies>
+
+
 </project>

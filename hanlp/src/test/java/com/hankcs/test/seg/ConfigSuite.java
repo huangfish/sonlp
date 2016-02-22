@@ -13,7 +13,7 @@ public class ConfigSuite {
 //        System.out.println(HanLP.Config.BiGramDictionaryPath);
 //        System.out.println(HanLP.Config.CustomDictionaryPath[0]);
         HanLP.config("src/conf/hanlp.properties");
-        System.out.println(HanLP.Config.BiGramDictionaryPath);
-        System.out.println(HanLP.Config.CustomDictionaryPath[0]);
+        System.out.println(HanLP.Config.sparkFiles());
+//        System.out.println(HanLP.Config.CustomDictionaryPath[0]);
     }
 }

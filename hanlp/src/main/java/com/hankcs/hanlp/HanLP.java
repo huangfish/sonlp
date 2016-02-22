@@ -7,6 +7,9 @@ import com.hankcs.hanlp.summary.TextRankKeyword;
 import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -248,6 +251,154 @@ public class HanLP {
             } else {
                 logger.setLevel(Level.OFF);
             }
+        }
+
+        public static void sparkConf(String confPath) throws FileNotFoundException {
+
+            config(confPath);
+            CoreDictionaryPath = name(CoreDictionaryPath);
+            CoreDictionaryTransformMatrixDictionaryPath = name(CoreDictionaryTransformMatrixDictionaryPath);
+            BiGramDictionaryPath = name(BiGramDictionaryPath);
+            CoreStopWordDictionaryPath = name(CoreStopWordDictionaryPath);
+            CoreSynonymDictionaryDictionaryPath = name(CoreSynonymDictionaryDictionaryPath);
+            PersonDictionaryPath = name(PersonDictionaryPath);
+            PersonDictionaryTrPath = name(PersonDictionaryTrPath);
+            PlaceDictionaryTrPath = name(PlaceDictionaryTrPath);
+            OrganizationDictionaryPath = name(OrganizationDictionaryPath);
+            OrganizationDictionaryTrPath = name(OrganizationDictionaryTrPath);
+            TraditionalChineseDictionaryPath = name(TraditionalChineseDictionaryPath);
+            TranslatedPersonDictionaryPath = name(TranslatedPersonDictionaryPath);
+            CharTypePath = name(CharTypePath);
+            CharTablePath = name(CharTablePath);
+            WordNatureModelPath = name(WordNatureModelPath);
+            MaxEntModelPath = name(MaxEntModelPath);
+            NNParserModelPath = name(NNParserModelPath);
+            CRFSegmentModelPath = name(CRFSegmentModelPath);
+            HMMSegmentModelPath = name(HMMSegmentModelPath);
+            CRFDependencyModelPath = name(CRFDependencyModelPath);
+            for (int i = 0; i < CustomDictionaryPath.length; i++) {
+                CustomDictionaryPath[i] = name(CustomDictionaryPath[i]);
+            }
+
+        }
+
+        private static String name(String path) {
+            return path.substring(path.lastIndexOf("/") + 1, path.length());
+        }
+
+        public static String sparkFiles() {
+            String[] confs = new String[]{CoreDictionaryPath, CoreDictionaryTransformMatrixDictionaryPath,
+                    BiGramDictionaryPath,
+                    CoreStopWordDictionaryPath,
+                    CoreSynonymDictionaryDictionaryPath,
+                    PersonDictionaryPath,
+                    PersonDictionaryTrPath,
+                    PlaceDictionaryPath,
+                    PlaceDictionaryTrPath,
+                    OrganizationDictionaryPath,
+                    OrganizationDictionaryTrPath,
+                    TraditionalChineseDictionaryPath,
+                    SYTDictionaryPath,
+                    PinyinDictionaryPath,
+                    TranslatedPersonDictionaryPath,
+                    CharTypePath,
+                    CharTablePath,
+                    WordNatureModelPath,
+                    MaxEntModelPath,
+                    NNParserModelPath,
+                    CRFSegmentModelPath,
+                    HMMSegmentModelPath,
+                    CRFDependencyModelPath
+            };
+            StringBuilder sb = new StringBuilder();
+            for (String s : confs) {
+                if (new File(s).exists()) {
+                    if (sb.length() > 0) {
+                        sb.append(',');
+                    }
+                    sb.append(s);
+                }
+                if (new File(s + ".bin").exists()) {
+                    if (sb.length() > 0) {
+                        sb.append(',');
+                    }
+                    sb.append(s + ".bin");
+                }
+            }
+            for (String s : CustomDictionaryPath) {
+                if (new File(s).exists()) {
+                    if (sb.length() > 0) {
+                        sb.append(',');
+                    }
+                    sb.append(s);
+                }
+                if (new File(s + ".bin").exists()) {
+                    if (sb.length() > 0) {
+                        sb.append(',');
+                    }
+                    sb.append(s + ".bin");
+                }
+            }
+            return sb.toString();
+//            String fs = sparkFile(CoreDictionaryPath) +
+//                    "," + sparkFile(CoreDictionaryTransformMatrixDictionaryPath) +
+//                    "," + sparkFile(BiGramDictionaryPath) +
+//                    "," + sparkFile(CoreStopWordDictionaryPath) +
+//                    "," + sparkFile(CoreSynonymDictionaryDictionaryPath) +
+//                    "," + sparkFile(PersonDictionaryPath) +
+//                    "," + sparkFile(PersonDictionaryTrPath) +
+//                    "," + sparkFile(PlaceDictionaryPath) +
+//                    "," + sparkFile(PlaceDictionaryTrPath) +
+//                    "," + sparkFile(OrganizationDictionaryPath) +
+//                    "," + sparkFile(OrganizationDictionaryTrPath) +
+//                    "," + sparkFile(TraditionalChineseDictionaryPath) +
+//                    "," + sparkFile(SYTDictionaryPath) +
+//                    "," + sparkFile(PinyinDictionaryPath) +
+//                    "," + sparkFile(TranslatedPersonDictionaryPath) +
+//                    "," + sparkFile(CharTypePath) +
+//                    "," + sparkFile(CharTablePath) +
+//                    "," + sparkFile(WordNatureModelPath) +
+//                    "," + sparkFile(MaxEntModelPath) +
+//                    "," + sparkFile(NNParserModelPath) +
+//                    "," + sparkFile(CRFSegmentModelPath) +
+//                    "," + sparkFile(HMMSegmentModelPath) +
+//                    "," + sparkFile(CRFDependencyModelPath);
+//            for (String s : CustomDictionaryPath) {
+//                fs += "," + sparkFile(s);
+//            }
+//            return fs;
+        }
+
+        private static String sparkFile(String path) {
+//            return resolveURI(path + "#" + path) +
+//                    ((new File(path + ".bin").exists()) ? ("," + resolveURI(path + ".bin") + "#" + path + ".bin") : "");
+            return (new File(path).exists() ? resolveURI(path) : "") +
+                    ((new File(path + ".bin").exists()) ? ("," + resolveURI(path + ".bin")) : "");
+        }
+
+        /**
+         * Return a well-formed URI for the file described by a user input string.
+         * <p/>
+         * If the supplied path does not contain a scheme, or is a relative path, it will be
+         * converted into an absolute path with a file:// scheme.
+         */
+        private static String resolveURI(String path) {
+            try {
+                URI uri = new URI(path);
+                if (uri.getScheme() != null) {
+                    return uri.toString();
+                }
+                // make sure to handle if the path has a fragment (applies to yarn
+                // distributed cache)
+                if (uri.getFragment() != null) {
+                    URI absoluteURI = new File(uri.getPath()).getAbsoluteFile().toURI();
+                    return new URI(absoluteURI.getScheme(), absoluteURI.getHost(), absoluteURI.getPath(),
+                            uri.getFragment()).toString();
+                }
+            } catch (URISyntaxException e) {
+
+            }
+            return new File(path).getAbsoluteFile().toURI().toString();
         }
     }
 
