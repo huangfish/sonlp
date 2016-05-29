@@ -21,8 +21,8 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.sohu.mrd</groupId>
             <artifactId>sonlp-core</artifactId>
-            <groupId>${project.groupId}</groupId>
         </dependency>
         <dependency>
             <groupId>com.sohu.mrd</groupId>
