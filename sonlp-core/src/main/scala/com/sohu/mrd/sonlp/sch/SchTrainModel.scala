@@ -5,7 +5,7 @@ import java.io.{PrintWriter, File}
 import collection.mutable
 
 /**
-  * Created by root on 16-4-18.
+  * Created by huangyu on 16-4-18.
   */
 object SchTrainModel {
 
