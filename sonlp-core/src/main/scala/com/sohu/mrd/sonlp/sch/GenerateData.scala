@@ -72,9 +72,9 @@ object GenerateData {
     val outputPath = if (_outputPath.endsWith("/")) _outputPath else _outputPath + "/"
     val ps = new mutable.HashMap[String, PrintWriter]()
     FileProcessor.processLine(new File(inputPath), line => {
-      val ss = line.split("\001")
-      val p = ps.getOrElseUpdate(ss(1), new PrintWriter(outputPath + ss(1)))
       try {
+        val ss = line.split("\001")
+        val p = ps.getOrElseUpdate(ss(1), new PrintWriter(outputPath + ss(1)))
         p.println(ss(0) + "\001" + generateSampleLine(line, topicModel, keywordNum, scaleTopic))
       } catch {
         case e: Throwable =>
